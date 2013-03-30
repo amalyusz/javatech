@@ -1,56 +1,58 @@
-import java.awt.*;
+package View;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
+import Controller.SocketNetwork;
+import Model.Coordinate;
+import Model.Game;
+import Model.TableSize;
 
 public class Windows extends Frame{
 		
-		int state = 0;
-		TextField t_uzenet;
-		JButton b_network;
-		JButton b_player;
-		TextField t_port;
-		TextField t_ip;
+		private int state = 0;
+		private TextField t_uzenet;
+		private JButton b_network;
+		private JButton b_player;
+		private TextField t_port;
+		private TextField t_ip;
 		
-		static Game game;
+		private static Game game;
 		
-		 Draw draw;		
+		private Draw draw;		
 		
-		int own_score = 0;
-		int enemy_score = 0;
+		private int own_score = 0;
+		private int enemy_score = 0;
 		
-		JCheckBox cb_server;
-		JCheckBox cb_kliens;
-		JCheckBox cb_single;
-		JCheckBox cb_small;
-		JCheckBox cb_medium;
-		JCheckBox cb_large;
+		private JCheckBox cb_server;
+		private JCheckBox cb_kliens;
+		private JCheckBox cb_single;
+		private JCheckBox cb_small;
+		private JCheckBox cb_medium;
+		private JCheckBox cb_large;
 		
-		TextField t_tippx;
-		TextField t_tippy;
-		JButton b_tipp;
-		JButton b_start;
+		private TextField t_tippx;
+		private TextField t_tippy;
+		private JButton b_tipp;
+		private JButton b_start;
 		
-		String GameGroundSize = "";
+		private String GameGroundSize = "";
 		
-		SocketNetwork socketnetwork;
-		
+		private SocketNetwork socketnetwork;
 				
 		public Windows()
 		{
@@ -629,7 +631,7 @@ public class Windows extends Frame{
 					//ground.randPlaceShips();
 					game.randPlaceShips(1);								
 					
-					game.writeOutputStream(socketnetwork.s_output, 1);
+					game.writeOutputStream(socketnetwork.getS_output(), 1);
 					//socketnetwork.s_output.writeBytes("\n");
 					
 					// Hajók kirajzolása
@@ -716,5 +718,85 @@ public class Windows extends Frame{
 			// elkészült a táblánk, átküldjük a szervernek
 			socketnetwork.initKliensGround();						
 			
+		}
+
+		public Game getGame() {
+			return game;
+		}
+
+		public void setGame(Game game) {
+			Windows.game = game;
+		}
+
+		public TextField getT_uzenet() {
+			return t_uzenet;
+		}
+
+		public void setT_uzenet(TextField t_uzenet) {
+			this.t_uzenet = t_uzenet;
+		}
+
+		public JCheckBox getCb_server() {
+			return cb_server;
+		}
+
+		public void setCb_server(JCheckBox cb_server) {
+			this.cb_server = cb_server;
+		}
+
+		public JCheckBox getCb_kliens() {
+			return cb_kliens;
+		}
+
+		public void setCb_kliens(JCheckBox cb_kliens) {
+			this.cb_kliens = cb_kliens;
+		}
+
+		public JCheckBox getCb_single() {
+			return cb_single;
+		}
+
+		public void setCb_single(JCheckBox cb_single) {
+			this.cb_single = cb_single;
+		}
+
+		public JCheckBox getCb_small() {
+			return cb_small;
+		}
+
+		public void setCb_small(JCheckBox cb_small) {
+			this.cb_small = cb_small;
+		}
+
+		public JCheckBox getCb_medium() {
+			return cb_medium;
+		}
+
+		public void setCb_medium(JCheckBox cb_medium) {
+			this.cb_medium = cb_medium;
+		}
+
+		public JCheckBox getCb_large() {
+			return cb_large;
+		}
+
+		public void setCb_large(JCheckBox cb_large) {
+			this.cb_large = cb_large;
+		}
+
+		public TextField getT_ip() {
+			return t_ip;
+		}
+
+		public void setT_ip(TextField t_ip) {
+			this.t_ip = t_ip;
+		}
+
+		public TextField getT_port() {
+			return t_port;
+		}
+
+		public void setT_port(TextField t_port) {
+			this.t_port = t_port;
 		}			
 }

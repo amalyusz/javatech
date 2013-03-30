@@ -1,3 +1,4 @@
+package Model;
 /*
  * Ez az osztály a trükk: elfedjük vele a kétdimenziós tömböt, hogy egyetlen
  * objektummal dolgozhassunk. Illetve saját equals és hashcode metódust írunk

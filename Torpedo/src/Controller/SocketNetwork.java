@@ -1,4 +1,4 @@
-import java.awt.Color;
+package Controller;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -6,43 +6,45 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import View.Windows;
+
 
 public class SocketNetwork {
 	
-	ServerSocket s_server;
-	DataInputStream s_input;
-    DataOutputStream s_output;
-    Socket s_client;
+	private ServerSocket s_server;
+	private DataInputStream s_input;
+    private DataOutputStream s_output;
+    private Socket s_client;
     
-    Socket c_client;
-	DataOutputStream c_output;
-	DataInputStream c_input;
+    private Socket c_client;
+	private DataOutputStream c_output;
+	private DataInputStream c_input;
 	
-	Windows _window;
+	private Windows window;
 	
 	public SocketNetwork(Windows window)
 	{
-		_window = window;
+		this.window = window;
 	}
 	
 	
 	public void sendBoardToEnemy()
 	{
 		//szerver vagyunk
-		if(_window.cb_server.isSelected())
+		if(window.getCb_server().isSelected())
 		{
 			try {
-				_window.game.writeOutputStream(s_output, 2);
+				window.getGame().writeOutputStream(s_output, 2);
 			} catch (IOException e) {
-				_window.t_uzenet.setText("I/O hiba!");
+				window.getT_uzenet().setText("I/O hiba!");
 			}
 		}
 		else //kliens vagyunk
 		{
 			try {
-				_window.game.writeOutputStream(c_output, 2);
+				window.getGame().writeOutputStream(c_output, 2);
 			} catch (IOException e) {
-				_window.t_uzenet.setText("I/O hiba!");
+				window.getT_uzenet().setText("I/O hiba!");
 			}
 		}
 		
@@ -51,9 +53,9 @@ public class SocketNetwork {
 	public void initKliensGround()
 	{
 		try {
-			_window.game.writeOutputStream(c_output, 1);			
+			window.getGame().writeOutputStream(c_output, 1);			
 		} catch (IOException e) {
-			_window.t_uzenet.setText("I/O hiba!");
+			window.getT_uzenet().setText("I/O hiba!");
 		}
 	}
 	
@@ -74,15 +76,15 @@ public class SocketNetwork {
 		        s_output = new DataOutputStream(s_client.getOutputStream());
 		        
 		        // Létrehozzuk a szálat, ami a hálózaton érkezõ üzeneteket fogadja és kezeli
-				Network th_network = new Network(s_input,"szerver", this._window, size);
+				Network th_network = new Network(s_input,"szerver", this.window, size);
 				// Elindítjuk a szálat
 				th_network.start();							
 			}
 			catch(IOException e)
 	        {
-	        	_window.t_uzenet.setText("Nem sikerült létrehozni a klienssel a kapcsolatot!");
+	        	window.getT_uzenet().setText("Nem sikerült létrehozni a klienssel a kapcsolatot!");
 	        	
-	        	_window.state = 0;
+	        	window.setState(0);
 	        }	
 		}
 		else
@@ -94,43 +96,43 @@ public class SocketNetwork {
 	            c_input = new DataInputStream(c_client.getInputStream());
 	            
 	            // Létrehozzuk a szálat, ami a hálózaton érkezõ üzeneteket fogadja és kezeli
-	            Network th_network = new Network(c_input,"kliens", this._window, size);
+	            Network th_network = new Network(c_input,"kliens", this.window, size);
 	            // Elindítjuk a szálat
 				th_network.start();
 			}
 			catch(UnknownHostException e)
 			{
 				System.out.println("Don't know about host "+e.toString());
-				_window.t_uzenet.setText("Nincs ilyen host!");
+				window.getT_uzenet().setText("Nincs ilyen host!");
 				
-				_window.state = 0;
-				_window.cb_server.setEnabled(true);
-				_window.cb_kliens.setEnabled(true);
-				_window.cb_single.setEnabled(true);
-				_window.cb_small.setEnabled(true);
-				_window.cb_medium.setEnabled(true);
-				_window.cb_large.setEnabled(true);
-				_window.t_ip.setEditable(true);
-				_window.t_port.setEditable(true);
+				window.setState(0);
+				window.getCb_server().setEnabled(true);
+				window.getCb_kliens().setEnabled(true);
+				window.getCb_single().setEnabled(true);
+				window.getCb_small().setEnabled(true);
+				window.getCb_medium().setEnabled(true);
+				window.getCb_large().setEnabled(true);
+				window.getT_ip().setEditable(true);
+				window.getT_port().setEditable(true);
 			}
 			catch(IOException e)
 			{
 				System.out.println("Couldn't get I/O for the connection to: " + e.toString());
-				_window.t_uzenet.setText("Nincs elérhetõ I/O kapcsolat!");
+				window.getT_uzenet().setText("Nincs elérhetõ I/O kapcsolat!");
 				
-				_window.state = 0;
-				_window.cb_server.setEnabled(true);
-				_window.cb_kliens.setEnabled(true);
-				_window.cb_single.setEnabled(true);
-				_window.cb_small.setEnabled(true);
-				_window.cb_medium.setEnabled(true);
-				_window.cb_large.setEnabled(true);
-				_window.t_ip.setEditable(true);
-				_window.t_port.setEditable(true);
+				window.setState(0);
+				window.getCb_server().setEnabled(true);
+				window.getCb_kliens().setEnabled(true);
+				window.getCb_single().setEnabled(true);
+				window.getCb_small().setEnabled(true);
+				window.getCb_medium().setEnabled(true);
+				window.getCb_large().setEnabled(true);
+				window.getT_ip().setEditable(true);
+				window.getT_port().setEditable(true);
 			}
 		}
 		
-		_window.connect(network, size);
+		window.connect(network, size);
 	}
 	
 	public void initClient(String size)
@@ -152,9 +154,9 @@ public class SocketNetwork {
 		}
 		catch(IOException e)
         {
-			_window.t_uzenet.setText("Nem sikerült létrehozni a klienssel a kapcsolatot!");
+			window.getT_uzenet().setText("Nem sikerült létrehozni a klienssel a kapcsolatot!");
         	
-        	_window.state = 0;
+        	window.setState(0);
         }
 		
 	}
@@ -162,7 +164,7 @@ public class SocketNetwork {
 	public void close()
 	{
 		 try {
-			 if(_window.cb_server.isSelected())
+			 if(window.getCb_server().isSelected())
 			 {
 				 s_server.close();
 				 s_client.close();
@@ -177,9 +179,18 @@ public class SocketNetwork {
 			 }	  
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 
+	}
+
+
+	public DataOutputStream getS_output() {
+		return s_output;
+	}
+
+
+	public void setS_output(DataOutputStream s_output) {
+		this.s_output = s_output;
 	}
 }

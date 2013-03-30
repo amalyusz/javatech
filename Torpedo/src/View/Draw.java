@@ -1,6 +1,10 @@
+package View;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+
+import Model.Coordinate;
+import Model.Game;
 
 /* Hajók kirajzolásáért felelõs osztály */
 public class Draw extends Canvas{

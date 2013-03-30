@@ -1,3 +1,4 @@
+package Model;
 /**
  * A FieldState egyben a hajók azonosítására szolgáló kulcs is (Ship.id)!
  * 

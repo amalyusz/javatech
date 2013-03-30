@@ -1,3 +1,5 @@
+package Model;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public class Table{
 		return table;
 	}
 	
-	FieldState getValue(Coordinate key){
+	public FieldState getValue(Coordinate key){
 			return table.get(key);
 	}
 	

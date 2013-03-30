@@ -1,13 +1,15 @@
+package Model;
 /**
  * 
  * @author zsidi
  *
  *	Ebben leszenk a függvények definiálva amiket igazából kell használi majd!
  */
-import java.io.*;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
+
 
 public class Game {
 	static private int state = 0;
@@ -15,13 +17,13 @@ public class Game {
 	private GameGround ground1;
 	private GameGround ground2;
 	
-	Game(TableSize tableSize){
+	public Game(TableSize tableSize){
 		ground1 = new GameGround(tableSize);
 		ground2 = new GameGround(tableSize);
 	}
 
 	
-	GameGround getGround(int plyrId){
+	public GameGround getGround(int plyrId){
 		if(plyrId == ground1.GetPlyrId()){
 			return ground1;
 		}else{
@@ -359,7 +361,7 @@ public class Game {
 	 * 
 	 * Amelyik ground-nak az id-ját kapja arra random lerakja a hajókat
 	 */
-	boolean randPlaceShips(int plyrId){
+	public boolean randPlaceShips(int plyrId){
 		if(ground1.GetPlyrId() == plyrId){
 			for(Ship ship : ground1.retSetOfShips()){
 				if(this.randPlaceShip(ship, 1) == false){
@@ -577,7 +579,7 @@ public class Game {
 	 * 
 	 * Akire lövünk annak az ID-ját kell megadni!
 	 */
-	boolean shoot(Coordinate coord, int plyrId){
+	public boolean shoot(Coordinate coord, int plyrId){
 		if(plyrId == ground1.GetPlyrId()){
 			switch(ground1.getGroundTable().getValue(coord)){
 				case FOUR : try{
@@ -882,7 +884,7 @@ public class Game {
 	 * 
 	 * Random lõ a függvény. Ahhoz hogy intelligensebb legyen még kicsit baszódni kell
 	 */
-	boolean randShoot(int plyrId){
+	public boolean randShoot(int plyrId){
 		Coordinate coord = new Coordinate(40, 40); // ilyen koordináta nincs
 		double x;
 		double y;
@@ -956,7 +958,7 @@ public class Game {
 	 * @param out
 	 * @throws IOException
 	 */
-	void writeOutputStream(DataOutputStream out, int plyrId) throws IOException{
+	public void writeOutputStream(DataOutputStream out, int plyrId) throws IOException{
 		// A tábla állapotát küldjük el
 		GameGround ground;
 		if(plyrId == ground1.GetPlyrId())
@@ -985,8 +987,7 @@ public class Game {
 	 * @throws Exception
 	 */
 	
-	Coordinate readInputStream(int plyrId, ArrayList<Integer> list1, ArrayList<Integer> list2, ArrayList<Integer> list3, ArrayList<Boolean> list4) throws IOException, Exception{
-		int x=0, y=0;
+	public Coordinate readInputStream(int plyrId, ArrayList<Integer> list1, ArrayList<Integer> list2, ArrayList<Integer> list3, ArrayList<Boolean> list4) throws IOException, Exception{
 		Coordinate score = new Coordinate(0,0);
 		FieldState state = FieldState.FREE;
 		GameGround ground;

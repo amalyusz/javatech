@@ -1,5 +1,7 @@
+package Model;
 import java.util.Set;
 import java.util.HashSet;
+
 
 
 public class GameGround {
@@ -37,7 +39,7 @@ public class GameGround {
 		return plyrId;
 	}
 	
-	Table getGroundTable(){
+	public Table getGroundTable(){
 		return table;
 	}
 	
