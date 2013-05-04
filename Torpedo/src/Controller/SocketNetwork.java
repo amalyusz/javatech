@@ -6,9 +6,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import View.Windows;
+import View.TorpedoFrame;
 
-
+/**
+ * Hálózati kapcsolat felépítéséért felelõs osztály
+ * 
+ * @author amalyusz
+ */
 public class SocketNetwork {
 	
 	private ServerSocket s_server;
@@ -20,14 +24,17 @@ public class SocketNetwork {
 	private DataOutputStream c_output;
 	private DataInputStream c_input;
 	
-	private Windows window;
+	private TorpedoFrame window;
 	
-	public SocketNetwork(Windows window)
+	public SocketNetwork(TorpedoFrame window)
 	{
 		this.window = window;
 	}
 	
 	
+	/**
+	 * Tábla elküldése az ellenfélnek
+	 */
 	public void sendBoardToEnemy()
 	{
 		//szerver vagyunk
@@ -59,6 +66,14 @@ public class SocketNetwork {
 		}
 	}
 	
+	/**
+	 * Kapcsolódás a másik félhez a hálózaton.
+	 * 
+	 * @param network szerver vagy kliens vagyunk
+	 * @param size pálya mérete
+	 * @param port a port amin kapcsolódunk
+	 * @param ip az IP cím amihez kapcsolódunk
+	 */
 	public void connect(String network, String size, String port, String ip)
 	{
 		if(network.equals("server"))
@@ -135,6 +150,11 @@ public class SocketNetwork {
 		window.connect(network, size);
 	}
 	
+	/**
+	 * Kliens inicializálása.
+	 * 
+	 * @param size
+	 */
 	public void initClient(String size)
 	{
 		try
@@ -161,6 +181,9 @@ public class SocketNetwork {
 		
 	}
 	
+	/**
+	 * Kapcsolat bezárása.
+	 */
 	public void close()
 	{
 		 try {

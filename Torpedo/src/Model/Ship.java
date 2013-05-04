@@ -1,12 +1,10 @@
 package Model;
 
 /**
+ * Hajó osztály. Minden hajót ez reprezentál!
  * 
- * @author zsidi
- * 
- *         Hajó osztály. Minden hajót ez reprezentál!
+ * @author amalyusz
  */
-
 public class Ship{
 	
 	static enum Orientation {

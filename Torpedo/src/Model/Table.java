@@ -5,13 +5,11 @@ import java.util.Map;
 
 
 /**
+ * Tábla osztály. Itt lesznek példányosítva a hajók???? Minden
+ * játékoshoz egy tábla tartozik!
  * 
- * @author zsidi
- * 
- *         Tábla osztály. Itt lesznek példányosítva a hajók???? Minden
- *         játékoshoz egy tábla tartozik!
+ * @author amalyusz
  */
-
 public class Table{
 
 	private Map<Coordinate, FieldState> table = new HashMap<Coordinate, FieldState>();

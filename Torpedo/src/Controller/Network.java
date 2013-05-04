@@ -5,20 +5,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Model.Coordinate;
-import View.Windows;
+import View.TorpedoFrame;
 
-/* Hálózaton érkezõ üzentek lekezlését végzõ szál */
+/**
+ * Hálózaton érkezõ üzentek lekezlését végzõ osztály
+ * 
+ * @author amalyusz
+ */
 public class Network extends Thread{
 	// Ahonnan az üzenetet be kell olvasni
 	DataInputStream input = null;
 	// Szerver vagy kliens vagyunk
 	String type;
-	Windows window;
+	TorpedoFrame window;
 	int size;
 	
 	Coordinate tipp;
 	// Konstruktor
-	Network(DataInputStream input, String type, Windows window, String size)
+	Network(DataInputStream input, String type, TorpedoFrame window, String size)
 	{
 		this.input = input;
 		this.type = type;

@@ -1,8 +1,11 @@
 package Model;
+
 /**
+ * Egyes mezõk állapotának jelzése.
+ * 
  * A FieldState egyben a hajók azonosítására szolgáló kulcs is (Ship.id)!
  * 
- * @author zsidi
+ * @author amalyusz
  * 
  */
 public enum FieldState {

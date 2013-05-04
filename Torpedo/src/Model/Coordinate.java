@@ -8,8 +8,9 @@ package Model;
  */
 
 /**
+ * Koordináta implementáció
  * 
- * @author medovarszki
+ * @author amalyusz
  */
 
 // A legelsõ koordináta 0,0!!!

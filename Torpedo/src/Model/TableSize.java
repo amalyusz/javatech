@@ -1,4 +1,10 @@
 package Model;
+
+/**
+ * Pálya méretét reprezentáló osztály.
+ * 
+ * @author amalyusz
+ */
 public enum TableSize {
 	LARGE	(20), // A legangyobb tábla oldalmérete
 	MEDIUM	(15), // A közepes nagyságú távla oldalmérete

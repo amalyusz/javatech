@@ -1,16 +1,14 @@
 package Model;
-/**
- * 
- * @author zsidi
- *
- *	Ebben leszenk a függvények definiálva amiket igazából kell használi majd!
- */
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+/**
+ * Játék logikája
+ * 
+ * @author amalyusz
+ */
 public class Game {
 	static private int state = 0;
 	
@@ -40,11 +38,10 @@ public class Game {
 	}
 	
 	/**
+	 * Amelyik gameground-ot felül akarjuk írni annak az id-ját kell megadni a setterben
 	 * 
 	 * @param ground
 	 * @param plyrId
-	 * 
-	 * Amelyik gameground-ot felül akarjuk írni annak az id-ját kell megadni a setterben
 	 */
 	void setGround(GameGround ground, int plyrId){
 		if(plyrId == ground1.GetPlyrId()){
@@ -55,15 +52,13 @@ public class Game {
 	}
 	
 	/**
+	 * 	Egy hajó lerakásárt felelõs függvény.
 	 * 
 	 * @param ship
 	 * @param coordinates
 	 * @param plyrId
 	 * @return
-	 * 
-	 * 	Egy hajó lerakásárt felelõs függvény.
 	 */
-	
 	boolean placeShip(Ship ship, Coordinate coordinates, int plyrId){
 		int x = coordinates.getX();
 		int y = coordinates.getY();
@@ -156,16 +151,16 @@ public class Game {
 			return true;
 		}
 	}
+
 	/**
+	 * 	Ransom elhelyez egy hajót a táblán.
+	 * 	Csak a saját hajószetünkben nyúlkáljunk!
 	 * 
 	 * @param ship
 	 * @param plyrId
 	 * @return
 	 * 
-	 * 	Ransom elhelyez egy hajót a táblán.
-	 * 	Csak a saját hajószetünkben nyúlkáljunk!
 	 */
-	
 	boolean randPlaceShip(Ship ship, int plyrId){
 		Coordinate coord = new Coordinate(40, 40); // ilyen koordináta nincs
 		boolean wouldFit = false;
@@ -355,11 +350,11 @@ public class Game {
 	}
 	
 	/**
+	 * Amelyik ground-nak az id-ját kapja arra random lerakja a hajókat
 	 * 
 	 * @param plyrId
 	 * @return
 	 * 
-	 * Amelyik ground-nak az id-ját kapja arra random lerakja a hajókat
 	 */
 	public boolean randPlaceShips(int plyrId){
 		if(ground1.GetPlyrId() == plyrId){
@@ -380,14 +375,13 @@ public class Game {
 	}
 	
 	/**
+	 * Egy hajó törlését végzi.
+	 * Csak a saját hajószetünkben nyúlkáljunk!
 	 * 
 	 * @param ship
 	 * @param plyrId
 	 * 
-	 * Egy hajó törlését végzi.
-	 * Csak a saját hajószetünkben nyúlkáljunk!
 	 */
-	
 	void clearShip(Ship ship, int plyrId){
 		int x = ship.getCoordinates().getX();
 		int y = ship.getCoordinates().getY();
@@ -526,10 +520,10 @@ public class Game {
 	}
 	
 	/**
+	 * Táblakirajzolás konzolra
 	 * 
 	 * @param plyrId
 	 * 
-	 * Táblakirajzolás konzolra
 	 */
 	void printTable(int plyrId) {
 		if(plyrId == ground1.GetPlyrId()){
@@ -572,12 +566,11 @@ public class Game {
 	}
 	
 	/**
+	 * Akire lövünk annak az ID-ját kell megadni!
 	 * 
 	 * @param coord
 	 * @param plyrId
 	 * @return
-	 * 
-	 * Akire lövünk annak az ID-ját kell megadni!
 	 */
 	public boolean shoot(Coordinate coord, int plyrId){
 		if(plyrId == ground1.GetPlyrId()){
@@ -878,11 +871,11 @@ public class Game {
 	}
 
 	/**
+	 * Random lõ a függvény. Ahhoz hogy intelligensebb legyen még kicsit baszódni kell
 	 * 
 	 * @param plyrId
 	 * @return
 	 * 
-	 * Random lõ a függvény. Ahhoz hogy intelligensebb legyen még kicsit baszódni kell
 	 */
 	public boolean randShoot(int plyrId){
 		Coordinate coord = new Coordinate(40, 40); // ilyen koordináta nincs
@@ -955,6 +948,7 @@ public class Game {
 	}
 	/**
 	 * Adat stream-re rakjuk
+	 * 
 	 * @param out
 	 * @throws IOException
 	 */
@@ -982,11 +976,11 @@ public class Game {
 	
 	/**
 	 * Adat stream-rõl olvasunk
+	 * 
 	 * @param in
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	
 	public Coordinate readInputStream(int plyrId, ArrayList<Integer> list1, ArrayList<Integer> list2, ArrayList<Integer> list3, ArrayList<Boolean> list4) throws IOException, Exception{
 		Coordinate score = new Coordinate(0,0);
 		FieldState state = FieldState.FREE;

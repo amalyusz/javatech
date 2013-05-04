@@ -6,23 +6,27 @@ import java.awt.Graphics;
 import Model.Coordinate;
 import Model.Game;
 
-/* Hajók kirajzolásáért felelõs osztály */
-public class Draw extends Canvas{
+/**
+ * Hajók kirajzolásáért felelõs osztály.
+ * 
+ * @author amalyusz
+ */
+public class TorpedoGameTableCanvas extends Canvas {
 	// Játéktér
 	Game _ground;
 	// Méret
-	String _size;
+	String gameTableSize;
 	// Konstruktor
-	Draw(Game ground, String size)
+	TorpedoGameTableCanvas(Game ground, String gameTableSize)
 	{
 		_ground = ground;
-		_size = size;
+		this.gameTableSize = gameTableSize;
 	}
 	// Rajzolást végzõ függvény
 	public void paint(Graphics g)
 	{		
 		// Ha kicsi a pálya
-		if(_size.equals("small"))
+		if(gameTableSize.equals("small"))
 		{
 			// Hajók helyei
 			int[] x = {10,45,80,115,150,185,220,255,290,325};
@@ -83,7 +87,7 @@ public class Draw extends Canvas{
 			}
 		}
 		// Ha közepes a pálya
-		else if(_size.equals("medium"))
+		else if(gameTableSize.equals("medium"))
 		{
 			// Hajók helyei
 			int[] x = {10,35,60,85,110,135,160,185,210,235,260,285,310,335,360};
@@ -201,5 +205,4 @@ public class Draw extends Canvas{
 			}
 		}			
 	}
-
 }

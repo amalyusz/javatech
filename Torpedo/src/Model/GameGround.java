@@ -3,7 +3,11 @@ import java.util.Set;
 import java.util.HashSet;
 
 
-
+/**
+ * Adott játéktér tárolása
+ * 
+ * @author amalyusz
+ */
 public class GameGround {
 	
 	static private int instanceNum = 1;
