@@ -7,10 +7,13 @@ import java.awt.Frame;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+import javax.naming.directory.InvalidAttributeValueException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,6 +23,7 @@ import javax.swing.JPanel;
 import Controller.SocketNetwork;
 import Model.Coordinate;
 import Model.Game;
+import Model.ShipCoordinates;
 import Model.TableSize;
 
 /**
@@ -27,8 +31,10 @@ import Model.TableSize;
  * 
  * @author amalyusz
  */
+@SuppressWarnings("serial")
 public class TorpedoFrame extends Frame {
 
+	private boolean isPlayerTurn;
 	private int state = 0;
 	private TextField t_uzenet;
 	private JButton b_network;
@@ -38,7 +44,7 @@ public class TorpedoFrame extends Frame {
 
 	private static Game game;
 
-	private TorpedoGameTableCanvas draw;
+	private TorpedoGameTableCanvas gameTableCanvas;
 
 	private int own_score = 0;
 	private int enemy_score = 0;
@@ -63,6 +69,8 @@ public class TorpedoFrame extends Frame {
 		setTitle("Torpedo játék");
 		setSize(1024, 600);
 		setLayout(new BorderLayout());
+		
+		isPlayerTurn = true;
 
 		JLabel l_sc = new JLabel("Szerver/kliens: ");
 		cb_server = new JCheckBox("Szerver");
@@ -150,7 +158,7 @@ public class TorpedoFrame extends Frame {
 		add(gamePanel, BorderLayout.SOUTH);
 
 		socketnetwork = new SocketNetwork(this);
-
+		
 		// Ablak bezárása
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent r) {
@@ -309,14 +317,63 @@ public class TorpedoFrame extends Frame {
 									game.randPlaceShips(2);
 
 									// Hajók kirajzolása
-									draw = new TorpedoGameTableCanvas(game, size);
-									add(draw);
+									try {
+										gameTableCanvas = new TorpedoGameTableCanvas(game, size);
+									} catch (InvalidAttributeValueException e1) {
+										e1.printStackTrace();
+									}
+									add(gameTableCanvas);
 
 									setVisible(false);
 									setVisible(true);
 
-									draw.invalidate();
-									draw.repaint();
+									gameTableCanvas.invalidate();
+									gameTableCanvas.repaint();
+									
+									gameTableCanvas.addMouseListener(new MouseAdapter() {
+										@Override
+										public void mousePressed(MouseEvent e) {
+											if (isPlayerTurn && state == 2) {
+												isPlayerTurn = false;
+												int x = e.getX();
+												int y = e.getY();
+												
+												int[] fireCoordinate = new int[2];
+												try {
+													fireCoordinate = getFireCoordinate(x, y);
+												} catch (InvalidAttributeValueException e1) {
+													e1.printStackTrace();
+												}
+												
+												if (fireCoordinate[0] != -1 && fireCoordinate[1] != -1) {
+													b_player.setText("Ellenfél lépése!");
+													b_player.setBackground(Color.red);
+													resultOnEnemyBoard(fireCoordinate[0], fireCoordinate[1]);
+												} else {
+													isPlayerTurn = true;
+												}
+											}
+										}
+
+										private int[] getFireCoordinate(int x, int y) throws InvalidAttributeValueException {
+											int[] result = new int[] {-1, -1};
+											ShipCoordinates shipCoordinates = ShipCoordinates.createInstance(GameGroundSize);
+											
+											for (int i = 0; i < shipCoordinates.getFieldNumbers(); i++) {
+												for (int j = 0; j < shipCoordinates.getFieldNumbers(); j++) {
+													if (shipCoordinates.getEnemyWidth()[i] < x && shipCoordinates.getEnemyWidth()[i] + shipCoordinates.getFieldSize() > x) {
+														if (shipCoordinates.getHeight()[j] < y && shipCoordinates.getHeight()[j] + shipCoordinates.getFieldSize() > y) {
+															result[0] = j;
+															result[1] = i;
+														}
+													}
+													
+												}
+											}
+											
+											return result;
+										}
+									});
 
 									b_start.setEnabled(false);
 									b_tipp.setEnabled(true);
@@ -387,8 +444,8 @@ public class TorpedoFrame extends Frame {
 					t_uzenet.setText("Nincs játék elkezdve!");
 
 				// Újrarajzoltatjuk a pályát
-				draw.invalidate();
-				draw.repaint();
+				gameTableCanvas.invalidate();
+				gameTableCanvas.repaint();
 			}
 		});
 	}
@@ -434,8 +491,8 @@ public class TorpedoFrame extends Frame {
 		b_tipp.setEnabled(true);
 		b_player.setText("Játékos lépése!");
 		b_player.setBackground(Color.green);
-		draw.invalidate();
-		draw.repaint();
+		gameTableCanvas.invalidate();
+		gameTableCanvas.repaint();
 
 	}
 
@@ -478,8 +535,8 @@ public class TorpedoFrame extends Frame {
 				socketnetwork.close();
 			}
 
-			draw.invalidate();
-			draw.repaint();
+			gameTableCanvas.invalidate();
+			gameTableCanvas.repaint();
 
 		}
 
@@ -537,9 +594,10 @@ public class TorpedoFrame extends Frame {
 			b_tipp.setEnabled(true);
 			b_player.setText("Játékos lépése!");
 			b_player.setBackground(Color.green);
+			isPlayerTurn = true;
 
-			draw.invalidate();
-			draw.repaint();
+			gameTableCanvas.invalidate();
+			gameTableCanvas.repaint();
 
 		}
 	}
@@ -615,18 +673,25 @@ public class TorpedoFrame extends Frame {
 				// socketnetwork.s_output.writeBytes("\n");
 
 				// Hajók kirajzolása
-				draw = new TorpedoGameTableCanvas(game, size);
-				add(draw);
+				try {
+					gameTableCanvas = new TorpedoGameTableCanvas(game, size);
+				} catch (InvalidAttributeValueException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				add(gameTableCanvas);
 
 				setVisible(false);
 				setVisible(true);
 
-				draw.invalidate();
-				draw.repaint();
+				gameTableCanvas.invalidate();
+				gameTableCanvas.repaint();
 				// SZerver esetén kikapcsoljuk a tipp gombot
 				b_tipp.setEnabled(false);
 				// Beállítjuk az állapotot
 				state = 2;
+				
+				isPlayerTurn = false;
 			} catch (IOException e) {
 				System.out.println(e.toString());
 				t_uzenet.setText("Nem sikerült létrehozni a klienssel a kapcsolatot!");
@@ -662,6 +727,7 @@ public class TorpedoFrame extends Frame {
 			// Network th_network = new Network(c_input,"kliens", this);
 			// Elindítjuk a szálat
 			// th_network.start();
+			isPlayerTurn = true;
 		}
 
 		return true;
@@ -684,8 +750,13 @@ public class TorpedoFrame extends Frame {
 		// Hajók random elhelyezése
 		game.randPlaceShips(1);
 		// Hajók kirajzolása
-		draw = new TorpedoGameTableCanvas(game, size);
-		add(draw);
+		try {
+			gameTableCanvas = new TorpedoGameTableCanvas(game, size);
+		} catch (InvalidAttributeValueException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		add(gameTableCanvas);
 
 		setVisible(false);
 		setVisible(true);
